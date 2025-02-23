@@ -30,6 +30,6 @@ namespace Command.Actions
                 throw new System.Exception($"No Action found for the type {type} in the dictionary");
         }
 
-        public TargetType GetTargetTypeForAction(CommandType actionType) => actions[actionType].TargetType;
+        public TargetType GetTargetTypeForAction(CommandType commandType) => actions[commandType].TargetType;
     }
 }
