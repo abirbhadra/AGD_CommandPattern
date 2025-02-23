@@ -49,8 +49,43 @@ namespace Command.Input
         public void OnTargetSelected(UnitController targetUnit)
         {
             SetInputState(InputState.EXECUTING_INPUT);
-            GameService.Instance.PlayerService.PerformAction(selectedCommandType, targetUnit);
+            UnitCommand commandToProcess = CreateUnitCommand(targetUnit);
+            GameService.Instance.ProcessUnitCommand(commandToProcess);
         }
 
+        private UnitCommand CreateUnitCommand(UnitController targetUnit)
+        {
+            CommandData commandData = CreateCommandData(targetUnit);
+
+            switch (selectedCommandType)
+            {
+                case CommandType.Attack:
+                    return new AttackCommand(commandData);
+                case CommandType.Heal:
+                    return new HealCommand(commandData);
+                case CommandType.AttackStance:
+                    return new AttackStanceCommand(commandData);
+                case CommandType.Cleanse:
+                    return new CleanseCommand(commandData);
+                case CommandType.BerserkAttack:
+                    return new BerserkAttackCommand(commandData);
+                case CommandType.Meditate:
+                    return new MeditateCommand(commandData);
+                case CommandType.ThirdEye:
+                    return new ThirdEyeCommand(commandData);
+                default:
+                    throw new System.Exception($"No Command found of type: {selectedCommandType}");
+            }
+        }
+
+        private CommandData CreateCommandData(UnitController targetUnit)
+        {
+            return new CommandData(
+                GameService.Instance.PlayerService.ActiveUnitID,
+                targetUnit.UnitID,
+                GameService.Instance.PlayerService.ActivePlayerID,
+                targetUnit.Owner.PlayerID
+            );
+        }
     }
 }
