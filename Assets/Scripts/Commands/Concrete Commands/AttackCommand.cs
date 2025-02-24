@@ -1,7 +1,4 @@
 using Command.Main;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Command.Commands
 {
@@ -9,7 +6,7 @@ namespace Command.Commands
     {
         private bool willHitTarget;
 
-        public AttackCommand(CommandData commandData) 
+        public AttackCommand(CommandData commandData)
         {
             this.commandData = commandData;
             willHitTarget = WillHitTarget();
@@ -19,7 +16,17 @@ namespace Command.Commands
 
         public override void Execute() =>
             GameService.Instance.ActionService.GetActionByType(CommandType.Attack).PerformAction(actorUnit, targetUnit, willHitTarget);
+        public override void Undo()
+        {
+            if (willHitTarget)
+            {
+                if (!targetUnit.IsAlive())
+                    targetUnit.Revive();
 
+                targetUnit.RestoreHealth(actorUnit.CurrentPower);
+                actorUnit.Owner.ResetCurrentActiveUnit();
+            }
+        }
     }
 
 }

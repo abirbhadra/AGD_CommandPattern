@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Command.Player;
 
 namespace Command.Commands
@@ -14,7 +11,7 @@ namespace Command.Commands
 
         public abstract void Execute();
         public abstract bool WillHitTarget();
-
+        public abstract void Undo();
         public void SetActorUnit(UnitController actorUnit) => this.actorUnit = actorUnit;
         public void SetTargetUnit(UnitController targetUnit) => this.targetUnit = targetUnit;
     }
