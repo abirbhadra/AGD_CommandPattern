@@ -1,7 +1,8 @@
 namespace Command.Commands
 {
-    public interface ICommand
-    {
-        void Execute();
-    }
+   public interface ICommand
+   {
+        public void Execute();
+        public void Undo();
+   }
 }
