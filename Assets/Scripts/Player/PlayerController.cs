@@ -24,7 +24,7 @@ namespace Command.Player
         {
             units = new List<UnitController>();
 
-            for(int i=0; i<unitScriptableObjects.Count; i++)
+            for (int i = 0; i < unitScriptableObjects.Count; i++)
             {
                 units.Add(new UnitController(this, unitScriptableObjects[i], unitPositions[i]));
             }
@@ -47,13 +47,13 @@ namespace Command.Player
 
         public void OnUnitTurnEnded()
         {
-            if(AllUnitsUsed())
+            if (AllUnitsUsed())
             {
                 // TODO:    Need to check here if any of the players are dead. Not only the active one.
 
                 if (AllUnitsDead())
                     playerService.PlayerDied(this);
-                else 
+                else
                     EndPlayerTurn();
             }
             else
@@ -82,7 +82,7 @@ namespace Command.Player
             units.ForEach(unit => unit.Destroy());
             units.Clear();
         }
-
+        public void ProcessUnitCommand(UnitCommand commandToProcess) => GetUnitByID(commandToProcess.commandData.ActorUnitID).ProcessUnitCommand(commandToProcess);
         // TODO:    What is this??
         public void ResetCurrentActivePlayer()
         {
@@ -90,10 +90,7 @@ namespace Command.Player
             activeUnitIndex--;
             units[activeUnitIndex].StartUnitTurn();
         }
-        public void ProcessUnitCommand(UnitCommand commandToProcess)
-        {
-            GetUnitByID(commandToProcess.commandData.ActorUnitID).ProcessUnitCommand(commandToProcess);
-        }
+
         public void ResetCurrentActiveUnit()
         {
             units[activeUnitIndex].ResetUnitIndicator();
